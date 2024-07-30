@@ -50,9 +50,18 @@ pipeline {
         stage('Terraform Apply or Destroy') {
             steps {
                 script {
-                    def action = params.ACTION
                     dir('eks') {
-                        sh "terraform ${action} -auto-approve"
+                        sh "terraform $action -auto-approve"
+                    }
+                }
+            }
+        }
+        stage('apply the kubernetes app') {
+            steps {
+                script {
+                    dir('Kubernetes') {
+                        sh "aws eks update-kubeconfig --name my-cluster-terraform"
+                        sh "kubectl apply -f /Kubernetes/"
                     }
                 }
             }
