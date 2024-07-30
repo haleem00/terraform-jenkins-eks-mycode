@@ -9,7 +9,7 @@ module "vpc" {
   azs             = data.aws_availability_zones.azs.names
   public_subnets  = var.public_subnet
 
- 
+  map_public_ip_on_launch = true
   enable_dns_hostnames = true
 
   tags = {
